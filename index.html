@@ -1,113 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Token Hunter Trivia Game</title>
+    <title>Crypto Odyssey - Galaxia Criptomonedelor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@300&display=swap"
+        rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f7f7f7;
-            color: #333;
+            font-family: 'Rajdhani', sans-serif;
+            background: radial-gradient(circle at center, #020024, #090979, #00d4ff);
+            color: #fff;
             margin: 0;
-            padding: 0;
+            overflow: hidden;
+            text-align: center;
         }
+
         .container {
-            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em;
+            text-transform: uppercase;
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0%,
+            100% {
+                text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 50px #0ff;
+            }
+
+            50% {
+                text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #0ff, 0 0 20px #0ff, 0 0 25px #0ff;
+            }
+        }
+
         .button {
-            background-color: #008CBA;
-            color: white;
-            padding: 15px 32px;
-            font-size: 16px;
+            background: linear-gradient(45deg, #00d4ff, #0077ff);
             border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2em;
+            padding: 15px 30px;
             cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
         }
-        .button:disabled {
-            background-color: #c0c0c0;
-            cursor: not-allowed;
+
+        .button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #00d4ff;
+        }
+
+        .mission-container {
+            display: none;
+            margin-top: 30px;
+            text-align: left;
+            max-width: 600px;
+        }
+
+        .mission-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .mission {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            transition: transform 0.3s;
+        }
+
+        .mission:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #00d4ff;
+        }
+
+        .mission button {
+            background: #090979;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .mission button:hover {
+            background: #00d4ff;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>Token Hunter Trivia!</h1>
-        <p>Înainte de a începe jocul, urmărește pagina de Twitter <strong>MultiversX</strong>.</p>
-        <button class="button" id="followTwitter" onclick="followTwitter()">Urmărește pe Twitter</button>
-        <p id="followMessage" style="display:none;">Mulțumim pentru interes! Acum poți începe jocul.</p>
-        <button class="button" id="startGame" onclick="startGame()" disabled>Începe Jocul</button>
+        <h1>Crypto Odyssey</h1>
+        <button class="button" onclick="startGame()">Intră în Galaxie</button>
+
+        <div class="mission-container" id="missionContainer">
+            <div class="mission-title">Misiuni Disponibile:</div>
+            <div class="mission">
+                <h3>Misiunea 1: Explorarea Blockchain-ului</h3>
+                <p>Explică în cuvintele tale ce înseamnă conceptul de "consens" în blockchain. <br> <button
+                        onclick="completeMission(1)">Completează Misiunea</button></p>
+            </div>
+            <div class="mission">
+                <h3>Misiunea 2: Identifică Primul Token</h3>
+                <p>Care este prima criptomonedă creată și cum se numește tehnologia din spatele ei? <br> <button
+                        onclick="completeMission(2)">Completează Misiunea</button></p>
+            </div>
+        </div>
     </div>
 
     <script>
-        function followTwitter() {
-            // Deschide pagina de Twitter într-un nou tab
-            window.open("https://x.com/MultiversX", "_blank");
-
-            // Afișează mesajul că utilizatorul poate începe jocul și activează butonul pentru a începe jocul
-            document.getElementById("followMessage").style.display = "block";
-            document.getElementById("startGame").disabled = false;
-        }
-
         function startGame() {
-            alert("Jocul a început! Pregătește-te pentru întrebările de trivia despre blockchain!");
-            loadQuestion();
+            const missionContainer = document.getElementById('missionContainer');
+            missionContainer.style.display = 'block';
+            window.scrollTo({
+                top: missionContainer.offsetTop,
+                behavior: 'smooth'
+            });
         }
 
-        const questions = [
-            {
-                question: "Ce este blockchain-ul?",
-                options: ["O bază de date descentralizată", "O monedă digitală", "Un calculator centralizat"],
-                answer: 0
-            },
-            {
-                question: "Care este prima criptomonedă creată?",
-                options: ["Ethereum", "Bitcoin", "Ripple"],
-                answer: 1
-            },
-            {
-                question: "Ce este un token?",
-                options: ["O unitate de valoare creată pe blockchain", "Un tip de portofel", "O platformă de contracte inteligente"],
-                answer: 0
-            }
-        ];
-
-        let currentQuestionIndex = 0;
-        let score = 0;
-
-        function loadQuestion() {
-            const container = document.querySelector(".container");
-            container.innerHTML = `
-                <h1>Token Hunter Trivia!</h1>
-                <div class="question">${questions[currentQuestionIndex].question}</div>
-                <div class="options">
-                    ${questions[currentQuestionIndex].options.map((option, index) => `
-                        <button class="button" onclick="checkAnswer(${index})">${option}</button>
-                    `).join("")}
-                </div>
-            `;
-        }
-
-        function checkAnswer(selectedIndex) {
-            const currentQuestion = questions[currentQuestionIndex];
-            if (selectedIndex === currentQuestion.answer) {
-                alert("Corect! Bravo!");
-                score++;
-            } else {
-                alert("Răspuns greșit. Corect era: " + currentQuestion.options[currentQuestion.answer]);
-            }
-
-            currentQuestionIndex++;
-
-            if (currentQuestionIndex < questions.length) {
-                loadQuestion();
-            } else {
-                alert("Jocul s-a terminat! Ai obținut " + score + " puncte din " + questions.length + ".");
-                currentQuestionIndex = 0;
-                score = 0;
-                loadQuestion();
-            }
+        function completeMission(missionNumber) {
+            alert(`Felicitări! Ai completat Misiunea ${missionNumber}.`);
         }
     </script>
 </body>
+
 </html>
