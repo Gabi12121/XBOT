@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Hunter Trivia Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .question {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .options button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .options button:hover {
+            background-color: #005f6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Token Hunter Trivia!</h1>
+        <div class="question" id="question">Întrebarea va apărea aici...</div>
+        <div class="options" id="options">
+            <!-- Butoanele pentru răspunsuri vor fi generate aici -->
+        </div>
+        <button id="nextButton" style="display:none;" onclick="nextQuestion()">Întrebarea Următoare</button>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        // Inițializăm Telegram Web App
+        const tg = window.Telegram.WebApp;
+
+        // Verificăm dacă WebApp-ul s-a încărcat
+        tg.ready();
+
+        // Definirea întrebărilor și logicii jocului
+        const questions = [
+            {
+                question: "Ce este blsaSAsockchain-ul?",
+                options: ["O bază de date desscentralizată", "O monedă digitală", "Un calculator centralizat"],
+                answer: 0
+            },
+            {
+                question: "Care este prima criptomonedă creată?",
+                options: ["Ethereum", "Bitcoin", "Ripple"],
+                answer: 1
+            },
+            {
+                question: "Ce este un token?",
+                options: ["O unitate de valoare creată pe blockchain", "Un tip de portofel", "O platformă de contracte inteligente"],
+                answer: 0
+            }
+        ];
+        
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            const nextButton = document.getElementById('nextButton');
+            nextButton.style.display = "none";
+
+            const currentQuestion = questions[currentQuestionIndex];
+            questionElement.innerText = currentQuestion.question;
+            optionsElement.innerHTML = '';
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(index);
+                optionsElement.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const currentQuestion = questions[currentQuestionIndex];
+            const nextButton = document.getElementById('nextButton');
+
+            if (selectedIndex === currentQuestion.answer) {
+                alert("Corect! Bravo!");
+                score++;
+            } else {
+                alert("Răspuns greșit. Corect era: " + currentQuestion.options[currentQuestion.answer]);
+            }
+
+            nextButton.style.display = "block";
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                alert("Jocul s-a terminat! Ai obținut " + score + " puncte din " + questions.length + ".");
+                currentQuestionIndex = 0;
+                score = 0;
+                loadQuestion();
+            }
+        }
+
+        // Începem jocul încărcând prima întrebare
+        window.onload = loadQuestion;
+    </script>
+</body>
+</html>
