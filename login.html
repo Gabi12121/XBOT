@@ -1,17 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logare cu Telegram</title>
-</head>
-<body>
-    <h2>Logare cu Telegram</h2>
-    <script async src="https://telegram.org/js/telegram-widget.js?19" 
-        data-telegram-login="Multivers_XBOT" 
-        data-size="large" 
-        data-auth-url="https://d66d-2a02-2f0e-510f-b000-6d9f-2d0d-bf8b-1e1.ngrok-free.app/auth" 
-        data-request-access="write">
-    </script>
-</body>
-</html>
+const TelegramBot = require('node-telegram-bot-api');
+const token = '7543775668:AAHmhUvh1W6Z0gHqbprcV7A1HQ7jNzInWvI';
+const bot = new TelegramBot(token, { polling: true });
+
+bot.onText(/\/start/, (msg) => {
+    const chatId = msg.chat.id;
+
+    const options = {
+        reply_markup: {
+            inline_keyboard: [
+                [
+                    {
+                        text: "Launch Main App",
+                        web_app: {
+                            url: "https://gabi12121.github.io/XBOT/"  // URL pentru index.html
+                        }
+                    },
+                    {
+                        text: "Login Page",
+                        web_app: {
+                            url: "https://gabi12121.github.io/XBOT/login.html"  // URL pentru login.html
+                        }
+                    }
+                ]
+            ]
+        }
+    };
+
+    bot.sendMessage(chatId, "Bine ai venit la Token Hunter! Apasă butonul de mai jos pentru a începe jocul sau pentru a te autentifica.", options);
+});
